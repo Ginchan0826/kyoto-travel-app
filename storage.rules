@@ -1,0 +1,26 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /itinerary_images/{itineraryId}/{fileName} {
+      function itineraryData() {
+        return firestore.get(/databases/(default)/documents/itineraries/$(itineraryId)).data;
+      }
+
+      function isOwnerOrCollaborator() {
+        return request.auth != null && (
+          request.auth.uid == itineraryData().ownerId ||
+          request.auth.uid in itineraryData().collaboratorIds
+        );
+      }
+
+      // 画像表示用ウィジェット（Image.network等）はFirebase認証ヘッダーを送れないため、
+      // 発行されたダウンロードURL（推測困難なトークン付き）を持つ相手であれば読み取りを許可する。
+      // 書き込み（アップロード・上書き）はしおりのオーナー/共同編集者のみに制限する。
+      allow read: if true;
+      allow write: if isOwnerOrCollaborator() &&
+        request.resource.size < 10 * 1024 * 1024 &&
+        request.resource.contentType.matches('image/.*');
+    }
+  }
+}

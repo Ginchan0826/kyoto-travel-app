@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "404628906818",
+    "project_id": "kyoto-travel-app-d3f08",
+    "storage_bucket": "kyoto-travel-app-d3f08.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:404628906818:android:79d197b2c9103837701edb",
+        "android_client_info": {
+          "package_name": "com.example.kyoto_travel_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "404628906818-kh2fbphplbvcj39iupfu1a21gbim0vuo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.kyoto_travel_app",
+            "certificate_hash": "42159259954ed94268a965a6a8eca73c151198bd"
+          }
+        },
+        {
+          "client_id": "404628906818-cki5rv4v1tn71gr5o7cckulknpk20is9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDbeMRPuRQ1Ju2Z6WPTQXxRu6iBKfunMxQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "404628906818-cki5rv4v1tn71gr5o7cckulknpk20is9.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "404628906818-ccvqmd5g1c4slrtioohutp7cu88nnpdf.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.kyotoTravelApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,66 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /itineraries/{itineraryId} {
+      function isOwner() {
+        return request.auth.uid == resource.data.ownerId;
+      }
+      function isCollaborator() {
+        return request.auth.uid in resource.data.collaboratorIds;
+      }
+      function isOwnerOrCollaborator() {
+        return isOwner() || isCollaborator();
+      }
+
+      allow read: if request.auth != null && isOwnerOrCollaborator();
+      allow create: if request.auth != null &&
+        request.auth.uid == request.resource.data.ownerId;
+      // 共同編集者はタイトル・メモは編集できるが、
+      // 共同編集者リスト・オーナーの変更はオーナーのみ許可する。
+      allow update: if request.auth != null && (
+        isOwner() ||
+        (isCollaborator() &&
+          !request.resource.data.diff(resource.data).affectedKeys()
+            .hasAny(['collaboratorIds', 'collaboratorEmails', 'ownerId']))
+      );
+      allow delete: if request.auth != null && isOwner();
+
+      match /spots/{spotId} {
+        function parentItinerary() {
+          return get(/databases/$(database)/documents/itineraries/$(itineraryId)).data;
+        }
+
+        allow read, write: if request.auth != null && (
+          request.auth.uid == parentItinerary().ownerId ||
+          request.auth.uid in parentItinerary().collaboratorIds
+        );
+      }
+
+      match /pages/{pageId} {
+        function parentItinerary() {
+          return get(/databases/$(database)/documents/itineraries/$(itineraryId)).data;
+        }
+
+        allow read, write: if request.auth != null && (
+          request.auth.uid == parentItinerary().ownerId ||
+          request.auth.uid in parentItinerary().collaboratorIds
+        );
+      }
+    }
+
+    match /tourist_spots/{spotId} {
+      allow read, write: if request.auth != null;
+    }
+
+    match /users/{uid} {
+      // メールアドレスからの共同編集者検索のため、ログイン済みなら全ユーザー分を読み取り可能にする。
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && request.auth.uid == uid;
+
+      match /spot_chats/{chatId}/messages/{messageId} {
+        allow read, write: if request.auth != null && request.auth.uid == uid;
+      }
+    }
+  }
+}

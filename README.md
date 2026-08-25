@@ -1,0 +1,48 @@
+# kyoto_travel_app
+
+A new Flutter project.
+
+## Getting Started
+
+This project is a starting point for a Flutter application.
+
+A few resources to get you started if this is your first Flutter project:
+
+- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
+- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
+- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+
+For help getting started with Flutter development, view the
+[online documentation](https://docs.flutter.dev/), which offers tutorials,
+samples, guidance on mobile development, and a full API reference.
+
+
+メモ
+中心となるファイル
+
+lib/main.dart — 起動処理（Firebase初期化・.env読み込み）
+lib/features/home/presentation/main_shell_page.dart — 下部タブ（しおり/観光/閲覧/検索）の親画面
+しおり機能（最も規模が大きい）
+
+lib/features/itinerary/data/itinerary_repository.dart — しおり・ページ・スポットのFirestore操作全般
+lib/features/itinerary/presentation/itinerary_workspace_page.dart — しおり1件の3タブ構成（エディター/デザイン/しおり）
+lib/features/itinerary/presentation/page_canvas_editor_page.dart — デザインキャンバス編集（画像配置・手書き・テンプレート）
+lib/features/itinerary/presentation/timeline_template_editor.dart / timeline_template_view.dart — DAY1/DAY2旅程表テンプレート
+lib/features/itinerary/presentation/spot_form_page.dart — スポット追加（Google検索連携）
+lib/features/itinerary/data/places_repository.dart — Google Places API連携
+観光タブ（AIチャット）
+
+lib/features/touring/data/tour_guide_repository.dart — Gemini APIとのやり取り・プロンプト定義
+lib/features/touring/presentation/touring_spot_chat_page.dart — チャットUI
+lib/features/touring/data/spot_chat_history_repository.dart — チャット履歴の保存
+検索タブ
+
+lib/features/spots/presentation/nearby_spots_page.dart — 現在地周辺の観光名所
+認証
+
+lib/features/auth/data/auth_repository.dart — ログイン処理（メール/Google）
+設定ファイル
+
+firestore.rules / storage.rules — セキュリティルール
+.env — APIキー管理
+pubspec.yaml — 依存パッケージ
