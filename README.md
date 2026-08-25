@@ -17,7 +17,7 @@ For help getting started with Flutter development, view the
 samples, guidance on mobile development, and a full API reference.
 
 
-メモ
+授業用メモ
 中心となるファイル
 
 lib/main.dart — 起動処理（Firebase初期化・.env読み込み）
